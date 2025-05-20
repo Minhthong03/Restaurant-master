@@ -12,8 +12,19 @@ if ($orderId > 0) {
     $detailCtrl = new controlOrderDetail();
     $details = $detailCtrl->getOrderDetailsByOrderId($orderId);
 
+    // Lấy thêm thông tin đơn hàng (mô tả)
+    $orderCtrl = new controlOrder();
+    $order = $orderCtrl->getOrderById($orderId);
+    $orderDescription = '';
+    if ($order && $rowOrder = mysqli_fetch_assoc($order)) {
+        $orderDescription = $rowOrder['description']; // cột ghi chú đơn hàng
+    }
+
     echo '<div class="order-container container">';
     echo '<h4 class="text-center">Chi tiết đơn hàng #' . $orderId . '</h4>';
+
+    // Hiển thị ghi chú đơn hàng ở trên bảng
+    echo '<div class="mb-3"><strong>Ghi chú đơn hàng:</strong> ' . htmlspecialchars($orderDescription) . '</div>';
 
     if (!$details) {
         echo '<div class="alert alert-danger text-center">Không có món ăn nào trong đơn hàng này.</div>';
@@ -24,6 +35,7 @@ if ($orderId > 0) {
                 <th>Số lượng</th>
                 <th>Đơn giá</th>
                 <th>Thành tiền</th>
+                <th>Ghi chú</th>
               </tr></thead><tbody>';
         while ($item = mysqli_fetch_assoc($details)) {
             echo '<tr>';
@@ -31,14 +43,15 @@ if ($orderId > 0) {
             echo '<td>' . $item["quantity"] . '</td>';
             echo '<td>' . number_format($item["unit_price"], 0, ',', '.') . ' đ</td>';
             echo '<td>' . number_format($item["unit_price"] * $item["quantity"], 0, ',', '.') . ' đ</td>';
+            echo '<td>' . htmlspecialchars($item["note"]) . '</td>';
             echo '</tr>';
         }
         echo '</tbody></table>';
     }
 
-echo '<a href="admin.php?action=AOrder" class="btn btn-sm btn-danger" style="text-decoration: none;">Quay lại</a>';
-
-} else {
+    echo '<a href="admin.php?action=AOrder" class="btn btn-sm btn-danger" style="text-decoration: none;">Quay lại</a>';
+}
+ else {
     $p = new controlOrder();
     $order_id = isset($_GET["order_id"]) ? trim($_GET["order_id"]) : '';
     $kq = $p->getAllOrders();
@@ -54,7 +67,7 @@ echo '<a href="admin.php?action=AOrder" class="btn btn-sm btn-danger" style="tex
     echo '<button type="submit" class="btn btn-primary">🔍 Tìm đơn hàng</button>';
     echo '</div></form>';
 
-    if (!$kq) {
+    if (!$kq || mysqli_num_rows($kq) == 0) {
         echo '<div class="alert alert-warning text-center">❌ Không có dữ liệu đơn hàng.</div>';
     } else {
         echo '<table class="table table-bordered table-hover text-center bg-light">';
@@ -74,7 +87,7 @@ echo '<a href="admin.php?action=AOrder" class="btn btn-sm btn-danger" style="tex
             $found = true;
             echo '<tr>';
             echo '<td>' . $r["id"] . '</td>';
-            echo '<td>' . htmlspecialchars($r["full_name"]) . '</td>';
+            echo '<td>' . (!empty($r["username"]) ? htmlspecialchars($r["username"]) : 'Ẩn danh') . '</td>';
             echo '<td>' . $r["order_date"] . '</td>';
             echo '<td>' . number_format($r["total_amount"], 0, ',', '.') . ' đ</td>';
             echo '<td>' . htmlspecialchars($r["status"]) . '</td>';

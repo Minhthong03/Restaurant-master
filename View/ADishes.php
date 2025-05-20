@@ -148,7 +148,7 @@ elseif ($addMode) {
 } else {
     // Tìm kiếm món ăn theo ID
     $searchId = isset($_GET['searchId']) ? trim($_GET['searchId']) : '';
-    $kq = ($searchId != '') ? $p->getDishById($searchId) : $p->getAllDishes();
+    $kq = ($searchId != '') ? $p->getDishById($searchId) : $p->getAllDishesQL();
 
     echo '<h2 class="mb-4 text-center text-dark">Quản lý món ăn</h2>';
     echo '<a href="admin.php?action=ADishes&addDish=true" class="btn btn-success" style="text-decoration: none;">Thêm món</a>';

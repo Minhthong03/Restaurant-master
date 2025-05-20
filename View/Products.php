@@ -16,7 +16,7 @@
 
 <?php
     include_once("Controller/controlDishes.php");
-    include_once("View/Categories.php");
+    
 
     $p = new controlDishes();
     if (isset($_REQUEST["category_id"])) {

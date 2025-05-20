@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php session_start();
-if (!isset($_SESSION["RoleID"]) || $_SESSION["RoleID"] != 1) {
+if (!isset($_SESSION["RoleID"]) || $_SESSION["RoleID"] != 3) {
     echo "<script>alert('Không có quyền truy cập');</script>";
     header("refresh:0;url='index.php'");
     exit;
@@ -67,10 +67,10 @@ if (!isset($_SESSION["RoleID"]) || $_SESSION["RoleID"] != 1) {
                         ?>
                     </li>
                     <hr>  
-                    <li><a class="color_animation" href="?action=AOrdernv">QUẢN LÝ ĐẶT HÀNG</a></li>
-                    <li><a class="color_animation" href="?action=AC">QUẢN LÝ KHÁCH HÀNG</a></li>
-                    <li><a class="color_animation" href="?action=ACategories">QUẢN LÝ ĐẶT BÀN</a></li>
-                    <li><a class="color_animation" href="?action=AOrder">CẬP NHẬT TRẠNG THÁI BÀN</a></li>
+                    <li><a class="color_animation" href="?action=AOrderNV">QUẢN LÝ ĐẶT HÀNG</a></li>
+                    <li><a class="color_animation" href="?action=ACustomers">QUẢN LÝ KHÁCH HÀNG</a></li>
+                    <li><a class="color_animation" href="?action=AReservations">QUẢN LÝ ĐẶT BÀN</a></li>
+                    <li><a class="color_animation" href="?action=ATables">CẬP NHẬT TRẠNG THÁI BÀN</a></li>
                     </ul>
             </div>
         </div>
@@ -78,20 +78,17 @@ if (!isset($_SESSION["RoleID"]) || $_SESSION["RoleID"] != 1) {
             <div>
                 <ul>
                     <?php
-                        if(isset($_REQUEST["action"])&&$_REQUEST["action"]=="ANguoiDung"){
-                            include_once("View/ANguoiDung.php");
+                        if(isset($_REQUEST["action"])&&$_REQUEST["action"]=="ACustomers"){
+                            include_once("View/ACustomers.php");
                         }
-                        elseif(isset($_REQUEST["action"])&&$_REQUEST["action"]=="ACategories"){
-                            include_once("View/ACategories.php");
+                        elseif(isset($_REQUEST["action"])&&$_REQUEST["action"]=="AOrderNV"){
+                            include_once("View/AOrderNV.php");
                         }
-                        elseif(isset($_REQUEST["action"])&&$_REQUEST["action"]=="ADishes"){
-                            include_once("View/ADishes.php");
+                        elseif(isset($_REQUEST["action"])&&$_REQUEST["action"]=="AReservations"){
+                            include_once("View/AReservations.php");
                         }
-                        elseif(isset($_REQUEST["action"])&&$_REQUEST["action"]=="AOrder"){
-                            include_once("View/AOrder.php");
-                        }
-                        elseif(isset($_REQUEST["action"]) && $_REQUEST["action"]=="AThongKe"){
-                            include_once("View/AThongKe.php");
+                        elseif(isset($_REQUEST["action"]) && $_REQUEST["action"]=="ATables"){
+                            include_once("View/ATables.php");
                         }
                     ?>
                 </ul><!-- @end #portfolio -->

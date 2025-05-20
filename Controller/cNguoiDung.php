@@ -43,6 +43,15 @@ class cNguoiDung {
                 return false;
             }
         }
+    public function getAllNguoiDungNV() {
+        $p = new mNguoiDung();
+        $kq = $p->selectAllNguoiDungNV();
+        if (mysqli_num_rows($kq) > 0) {
+            return $kq;
+        } else {
+            return false;
+        }
+    }
     public function getAllNguoiDung() {
         $p = new mNguoiDung();
         $kq = $p->selectAllNguoiDung();
@@ -52,7 +61,7 @@ class cNguoiDung {
             return false;
         }
     }
-    public function themNguoiDung($username, $email, $password, $phone, $role_id, $status) {
+    public function themNguoiDung($username, $email, $password, $phone,$address, $role_id, $status) {
         // Kiểm tra xem email có trùng không
         $existingEmail = $this->checkEmailExists($email);
         
@@ -61,10 +70,10 @@ class cNguoiDung {
         }
 
         $p = new mNguoiDung();
-        return $p->insertNguoiDung($username, $email, $password, $phone, $role_id, $status);
+        return $p->insertNguoiDung($username, $email, $password, $phone,$address, $role_id, $status);
     }
     // Phương thức sửa người dùng
-public function updateNguoiDung($id, $username, $email, $password, $phone, $role_id, $status) {
+public function updateNguoiDung($id, $username, $email, $password, $phone,$address, $role_id, $status) {
     // Kiểm tra email trùng với người khác
     $existingEmail = $this->checkEmailExistsForUpdate($email, $id); 
     
@@ -73,7 +82,7 @@ public function updateNguoiDung($id, $username, $email, $password, $phone, $role
     }
 
     $p = new mNguoiDung();
-    return $p->udNguoiDung($id, $username, $email, $password, $phone, $role_id, $status);
+    return $p->udNguoiDung($id, $username, $email, $password, $phone,$address, $role_id, $status);
 }
     // Kiểm tra email có trùng trong cơ sở dữ liệu
 public function checkEmailExists($email) {
@@ -92,17 +101,19 @@ public function checkEmailExistsForUpdate($email, $id) {
         $p = new mNguoiDung();
         return $p->getAllRoles();  // Gọi phương thức model để lấy các vai trò
     }
-    public function getUsersById($searchId) {
-    $p = new mNguoiDung();
-    if ($searchId) {
-        // Tìm kiếm theo ID người dùng
-        $kq = $p->getUserById($searchId);
-        return $kq;
-    } else {
-        // Nếu không có ID, trả về tất cả người dùng
-        return $this->getAllNguoiDung();
+    public function getAllRolesNV() {
+        $p = new mNguoiDung();
+        return $p->getAllRolesNV();  // Gọi phương thức model để lấy các vai trò
     }
-}
-
+    public function getUsersById($searchId) {
+        $p = new mNguoiDung();
+        $kq = $p->getUserById($searchId);
+        return $kq;       
+    }
+    public function getUsersByIdNV($searchId) {
+        $p = new mNguoiDung();
+        $kq = $p->getUserByIdNV($searchId);
+        return $kq;     
+    }
 }
 ?>

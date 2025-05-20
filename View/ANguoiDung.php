@@ -37,6 +37,8 @@ if ($editId > 0) {
 
         // Mật khẩu
         echo '<div class="mb-3"><label>Mật khẩu mới:</label><input type="password" name="password" class="form-control"></div>';
+        // Địa chỉ
+        echo '<div class="mb-3"><label>Địa chỉ:</label><input type="text" name="address" value="' . htmlspecialchars($r['address']) . '" class="form-control"></div>';
 
         // Vai trò
         echo '<div class="mb-3">
@@ -66,9 +68,10 @@ if ($editId > 0) {
     // Lấy dữ liệu từ form sửa
     $idnd = $_REQUEST["id"];
     $tennd = $_REQUEST["tennd"];
-    $mknd = md5($_REQUEST["password"]);  // Mã hóa mật khẩu với MD5
+    $mknd = $_REQUEST["password"];  
     $email = $_REQUEST["email"];
     $phone = $_REQUEST["phone"];
+    $address = $_REQUEST["address"];
     $role_id = $_REQUEST["role_id"];
     $status = $_REQUEST["status"];  // Lấy trạng thái từ form
 
@@ -77,7 +80,7 @@ if ($editId > 0) {
                 echo "<script>alert('Email này đã tồn tại. Vui lòng sử dụng email khác.');</script>";
             } else {
                 // Sửa thông tin người dùng
-                $kq = $p->updateNguoiDung($idnd, $tennd, $email, $mknd, $phone, $role_id, $status);
+                $kq = $p->updateNguoiDung($idnd, $tennd, $email, $mknd, $phone,$address, $role_id, $status);
 
                 // Kiểm tra kết quả
                 if ($kq) {
@@ -105,6 +108,7 @@ elseif ($addMode) {
     </div>';
     echo '<div class="mb-3"><label>Điện thoại:</label><input type="text" name="phone" class="form-control"></div>';
     echo '<div class="mb-3"><label>Mật khẩu:</label><input type="password" name="password" class="form-control" required></div>';
+    echo '<div class="mb-3"><label>Địa chỉ:</label><input type="text" name="address" class="form-control"></div>';
     echo '<div class="mb-3">
     <label for="role_id">Vai trò:</label>
     <select name="role_id" id="role_id" class="form-control" required>';
@@ -122,9 +126,10 @@ elseif ($addMode) {
     if (isset($_POST["btnInsert"])) {
         // Lấy dữ liệu từ form
         $tennd = $_POST["tennd"];
-        $mknd = md5($_POST["password"]);  // Mã hóa mật khẩu với MD5
+        $mknd = $_POST["password"];  // Mã hóa mật khẩu với MD5
         $email = $_POST["email"];
         $phone = $_POST["phone"];
+        $address = $_POST["address"];
         $role_id = $_POST["role_id"];
         $status = "active"; // Trạng thái mặc định là "active"
 
@@ -133,7 +138,7 @@ elseif ($addMode) {
             echo "<script>alert('Email này đã tồn tại. Vui lòng sử dụng email khác.');</script>";
         } else {
             // Thêm người dùng
-            $kq = $p->themNguoiDung($tennd, $email, $mknd, $phone, $role_id, $status);
+            $kq = $p->themNguoiDung($tennd, $email, $mknd, $phone, $address,$role_id, $status);
 
             // Kiểm tra kết quả
             if ($kq) {
@@ -160,7 +165,7 @@ if ($searchId != '') {
     // Nếu không tìm kiếm, hiển thị tất cả người dùng
     $kq = $p->getAllNguoiDung();
 }
-echo '<h2 class="mb-4 text-center text-dark">Quản lý đơn hàng</h2>';
+echo '<h2 class="mb-4 text-center text-dark">Quản lý nhân viên</h2>';
 echo '<a href="admin.php?action=ANguoiDung&addUser=true" class="btn btn-success" style="text-decoration: none;">Thêm người dùng</a>';
 
 echo '<div class="user-container container">';
@@ -180,7 +185,7 @@ echo '</div>';
 echo '</form>';
 
 // Hiển thị kết quả tìm kiếm hoặc tất cả người dùng
-if (!$kq) {
+if (!$kq || mysqli_num_rows($kq) == 0) {
     echo '<div class="alert alert-warning text-center">❌ Không có dữ liệu người dùng.</div>';
 } else {
     echo '<table class="table table-bordered table-hover text-center bg-light">';
@@ -188,7 +193,6 @@ if (!$kq) {
             <th>Mã ND</th>
             <th>Tên ND</th>
             <th>Email</th>
-            <th>Điện thoại</th>
             <th>Quyền</th>
             <th>Trạng thái</th>
             <th>Thao tác</th>
@@ -199,7 +203,6 @@ if (!$kq) {
         echo '<td>' . $r["id"] . '</td>';
         echo '<td>' . htmlspecialchars($r["username"]) . '</td>';
         echo '<td>' . htmlspecialchars($r["email"]) . '</td>';
-        echo '<td>' . htmlspecialchars($r["phone"]) . '</td>';
         echo '<td>' . htmlspecialchars($r["role_name"]) . '</td>';
         echo '<td>' . ($r["status"] === "active" ? "<span class='text-success'>Hoạt động</span>" : "<span class='text-danger'>Ngưng hoạt động</span>") . '</td>';
         echo '<td><a href="admin.php?action=ANguoiDung&editUser=' . $r['id'] . '" class="btn btn-sm btn-primary">Sửa</a></td>';

@@ -25,27 +25,40 @@ class mNguoiDung {
         $p->DongKetNoi($con);
         return $kq;
     }
+
+    public function selectAllNguoiDungNV() {
+        $p = new clsKetNoi();
+        $truyvan = "SELECT u.*, r.name AS role_name
+                    FROM Users u
+                    JOIN Roles r ON u.role_id = r.id
+                    WHERE u.role_id = 4";
+        $con = $p->MoKetNoi();
+        $kq = mysqli_query($con, $truyvan);
+        $p->DongKetNoi($con);
+        return $kq;
+    }
     public function selectAllNguoiDung() {
         $p = new clsKetNoi();
         $truyvan = "SELECT u.*, r.name AS role_name
                     FROM Users u
-                    JOIN Roles r ON u.role_id = r.id";
+                    JOIN Roles r ON u.role_id = r.id
+                    WHERE u.role_id != 4";
         $con = $p->MoKetNoi();
         $kq = mysqli_query($con, $truyvan);
         $p->DongKetNoi($con);
         return $kq;
     }
-    public function insertNguoiDung($username, $email, $password, $phone, $role_id, $status) {
+    public function insertNguoiDung($username, $email, $password, $phone, $address, $role_id, $status) {
         $p = new clsKetNoi();
         $con = $p->MoKetNoi();
         $password = md5($password); // Hashing the password
-        $truyvan = "INSERT INTO users (username, email, password, phone, role_id, status) 
-                    VALUES ('$username', '$email', '$password', '$phone', $role_id, '$status')";
+        $truyvan = "INSERT INTO users (username, email, password, phone, address, role_id, status) 
+                    VALUES ('$username', '$email', '$password', '$phone','$address', $role_id, '$status')";
         $kq = mysqli_query($con, $truyvan);
         $p->DongKetNoi($con);
         return $kq;
     }
-    public function udNguoiDung($id, $username, $email, $password, $phone, $role_id, $status) {
+    public function udNguoiDung($id, $username, $email, $password, $phone,$address, $role_id, $status) {
         $p = new clsKetNoi();
         $con = $p->MoKetNoi();
         $password = md5($password); // Hashing the password
@@ -54,6 +67,7 @@ class mNguoiDung {
                     email = '$email', 
                     password = '$password', 
                     phone = '$phone', 
+                    address='$address'
                     role_id = $role_id, 
                     status = '$status'
                 WHERE id = $id";
@@ -84,31 +98,54 @@ public function getEmailByEmailExceptId($email, $id) {
         $p = new clsKetNoi();
         $con = $p->MoKetNoi();
 
-        $query = "SELECT * FROM roles"; 
+        $query = "SELECT * FROM roles
+        WHERE id != 4"; 
         $result = mysqli_query($con, $query);
         $p->DongKetNoi($con);
 
         return $result;
     }
-    public function getUsersById($searchId) {
+    public function getAllRolesNV() {
+        $p = new clsKetNoi();
+        $con = $p->MoKetNoi();
+
+        $query = "SELECT * FROM roles
+        WHERE id = 4"; 
+        $result = mysqli_query($con, $query);
+        $p->DongKetNoi($con);
+
+        return $result;
+    }
+    public function getUserById($id) {
+        $p = new clsKetNoi();
+        $con = $p->MoKetNoi();
+        $truyvan = "SELECT u.*, r.name AS role_name 
+            FROM Users u 
+            JOIN Roles r ON u.role_id = r.id 
+            WHERE u.id = '$id' AND u.role_id != 4 
+            LIMIT 1";
+        $kq = mysqli_query($con, $truyvan);
+        $p->DongKetNoi($con);
+        return $kq;
+    }
+    public function getUserByIdNV($id) {
     $p = new clsKetNoi();
     $con = $p->MoKetNoi();
 
-    // Sử dụng LIKE để tìm kiếm các ID chứa searchId
-    $truyvan = "SELECT u.*, r.name AS role_name
-                FROM users u
-                JOIN roles r ON u.role_id = r.id
-                WHERE u.id LIKE '%$searchId%'";
+    if (!$con) {
+        die("Kết nối thất bại: " . mysqli_connect_error());
+    }
+
+    $id = (int)$id;  // ép kiểu số an toàn
+
+    $truyvan = "SELECT u.*, r.name AS role_name 
+                FROM users u 
+                JOIN roles r ON u.role_id = r.id 
+                WHERE u.id = $id AND u.role_id = 4 
+                LIMIT 1";
+
     $kq = mysqli_query($con, $truyvan);
-    $p->DongKetNoi($con);
-    
-    return $kq;
-}
-public function getUserById($id) {
-    $p = new clsKetNoi();
-    $con = $p->MoKetNoi();
-    $truyvan = "SELECT u.*, r.name AS role_name FROM Users u JOIN Roles r ON u.role_id = r.id WHERE u.id = '$id' LIMIT 1";
-    $kq = mysqli_query($con, $truyvan);
+
     $p->DongKetNoi($con);
     return $kq;
 }

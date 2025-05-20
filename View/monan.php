@@ -46,7 +46,7 @@ $p = new controlDishes();
 $maSP = $_REQUEST["id"]; 
 
 // Gọi phương thức để lấy chi tiết món ăn
-$sp = $p->getOneDish($maSP);
+$sp = $p->getDishById($maSP);
 
 // Kiểm tra nếu có kết quả sản phẩm
 if ($sp) {
@@ -56,7 +56,8 @@ if ($sp) {
         $gia = $r["price"];
         $motasp = $r["description"];
         $hinh = $r["image"];
-        $thuonghieu = $r["category_name"];  // Hoặc nếu bạn muốn lấy tên danh mục, bạn có thể điều chỉnh lại
+        $thuonghieu = $r["category_name"];
+        $status=$r["status"] == 'active' ? 'Active' : 'Inactive' ; // Hoặc nếu bạn muốn lấy tên danh mục, bạn có thể điều chỉnh lại
     }
 } else {
     // Nếu không có sản phẩm, hiển thị thông báo và chuyển hướng về trang quản trị
@@ -81,7 +82,7 @@ if ($sp) {
         <p><strong>Mô tả sản phẩm:</strong></p>
         <p style="color: #555;"><?php echo nl2br($motasp); ?></p>
         <p><strong>Thương hiệu:</strong> <?php echo $thuonghieu; ?></p>
-
+        <p><strong>Trạng thái:</strong><?php echo $status; ?></p>
         <!-- Chọn số lượng -->
         <div style="margin-top: 15px;">
             <label for="quantity" style="font-weight: bold;">Số lượng:</label>

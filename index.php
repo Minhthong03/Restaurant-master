@@ -40,6 +40,7 @@
                             <li><a class="navactive color_animation" href="#top">WELCOME</a></li>
                             <li><a class="color_animation" href="#pricing">PRICING</a></li>
                             <li><a class="color_animation" href="#contact">CONTACT</a></li>
+
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div>
@@ -54,9 +55,13 @@
                             echo '<a class="color_animation" href="View/dangXuat.php" onclick="return confirm(\'Are you sure to logout?\');">LOGOUT</a>';
                         }else{
                             echo '<a class="color_animation" href="?dangnhap">LOGIN</a>';
+                            echo '<span style="margin: 0 40px;">|</span>';
+                            echo '<a class="color_animation" href="?account">CREATE ACCOUNT</a>';
                         }
                         if(isset($_GET["dangnhap"])){
                             include_once("View/dangNhap.php");
+                        }elseif(isset($_GET["account"])){
+                            include_once("View/account.php");
                         }
                         ?>
                     </li>
