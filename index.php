@@ -15,7 +15,6 @@
         <link rel="stylesheet" href="css/jquery-ui.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="css/font-awesome.min.css" rel="stylesheet">
-        <link rel="icon" href="favicon-1.ico" type="image/x-icon">
     </head>
 
     <body>
@@ -163,6 +162,95 @@
         <script type="text/javascript" src="js/jquery-1.10.2.js"></script>     
         <script type="text/javascript" src="js/jquery.mixitup.min.js" ></script>
         <script type="text/javascript" src="js/main.js" ></script>
+
+        <!-- Chat Box Icon -->
+        <div id="chat-icon" title="Chat với chúng tôi">
+            <i class="fa fa-comments" aria-hidden="true"></i>
+        </div>
+
+        <!-- Chat Box Window -->
+        <div id="chat-box" style="display:none;">
+            <div id="chat-header">
+                <span>Chat hỗ trợ</span>
+                <button id="chat-close">&times;</button>
+            </div>
+            <div id="chat-content">
+                <div id="chat-messages"></div>
+            </div>
+            <div id="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Nhập tin nhắn...">
+                <button id="chat-send">Gửi</button>
+            </div>
+        </div>
+
+        <script>
+            const chatIcon = document.getElementById('chat-icon');
+            const chatBox = document.getElementById('chat-box');
+            const chatClose = document.getElementById('chat-close');
+            const chatSend = document.getElementById('chat-send');
+            const chatInput = document.getElementById('chat-input');
+            const chatMessages = document.getElementById('chat-messages');
+
+            // Mở chat
+            chatIcon.addEventListener('click', () => {
+                chatBox.style.display = 'flex';
+                chatIcon.style.display = 'none';
+                chatInput.focus();
+            });
+
+            // Đóng chat
+            chatClose.addEventListener('click', () => {
+                chatBox.style.display = 'none';
+                chatIcon.style.display = 'flex';
+            });
+
+            // Thêm tin nhắn vào khung chat
+            function addMessage(text, sender) {
+                const msg = document.createElement('div');
+                msg.classList.add('message', sender);
+                msg.textContent = text;
+                chatMessages.appendChild(msg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            // Gửi tin nhắn khi click nút Gửi
+            chatSend.addEventListener('click', () => {
+                const text = chatInput.value.trim();
+                if(text === '') return;
+
+                addMessage(text, 'user');
+                chatInput.value = '';
+
+                // Gửi câu hỏi lên backend xử lý
+                fetch('chat_process.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    },
+                    body: 'question=' + encodeURIComponent(text)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.reply) {
+                        addMessage(data.reply, 'bot');
+                    } else {
+                        addMessage("Xin lỗi, tôi không hiểu câu hỏi của bạn.", 'bot');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Fetch error:', error);
+                    addMessage("Có lỗi xảy ra, vui lòng thử lại sau.", 'bot');
+                });
+            });
+
+            // Cho phép nhấn Enter để gửi
+            chatInput.addEventListener('keydown', e => {
+                if(e.key === 'Enter'){
+                    chatSend.click();
+                    e.preventDefault();
+                }
+            });
+        </script>
 
     </body>
 </html>

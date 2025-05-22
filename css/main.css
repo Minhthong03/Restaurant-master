@@ -754,7 +754,7 @@ MEDIA QUERIES TABLET
         width: 325px;
     } 
 
-} /*END OF MEDIA QUERY*/
+ /*END OF MEDIA QUERY*/
 
 /*========================
 MEDIA QUERIE DESKTOP
@@ -852,4 +852,115 @@ MEDIA QUERIE DESKTOP
     .social_icons li a {
         font-size: 30px;
     }
+}
+
+/*========================
+    css chat box
+    =========================*/
+/* Chat icon góc dưới phải */
+#chat-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #007bff;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    z-index: 1000;
+}
+
+#chat-box {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 320px;
+    max-height: 400px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    display: none;
+    flex-direction: column;
+    z-index: 1001;
+    font-family: Arial, sans-serif;
+}
+
+#chat-header {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#chat-header button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#chat-content {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    border-bottom: 1px solid #ddd;
+}
+
+#chat-messages {
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 15px;
+    max-width: 80%;
+    clear: both;
+}
+
+.message.user {
+    background: #007bff;
+    color: white;
+    float: right;
+}
+
+.message.bot {
+    background: #e5e5ea;
+    color: black;
+    float: left;
+}
+
+#chat-input-area {
+    display: flex;
+    padding: 10px;
+}
+
+#chat-input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+#chat-send {
+    margin-left: 10px;
+    padding: 8px 16px;
+    background: #007bff;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
 }
