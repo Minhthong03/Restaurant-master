@@ -58,6 +58,8 @@ if (!isset($_SESSION["RoleID"]) || $_SESSION["RoleID"] != 3) {
                     <li><?php
                         if(isset($_SESSION["RoleID"])){
                             echo '<a class="color_animation" href="View/dangXuat.php" onclick="return confirm(\'Are you sure to logout?\');">LOGOUT</a>';
+                            echo '<span style="margin: 0 40px;">|</span>';
+                            echo '<a class="color_animation" href="index.php">HOME</a>';
                         }else{
                             echo '<a class="color_animation" href="?dangnhap">LOGIN</a>';
                         }

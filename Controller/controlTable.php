@@ -19,6 +19,14 @@ class controlTable {
     }
     return false;
 }
+    public function addTable($table_number, $status) {
+        $p = new modelTable();
+        return $p->insertTable($table_number, $status);
+    }
 
+    public function updateTableStatus($id, $status) {
+        $p = new modelTable();
+        return $p->updateTableStatus($id, $status);
+    }
 }
 ?>

@@ -27,16 +27,24 @@ class mNguoiDung {
     }
 
     public function selectAllNguoiDungNV() {
-        $p = new clsKetNoi();
-        $truyvan = "SELECT u.*, r.name AS role_name
-                    FROM Users u
-                    JOIN Roles r ON u.role_id = r.id
-                    WHERE u.role_id = 4";
-        $con = $p->MoKetNoi();
-        $kq = mysqli_query($con, $truyvan);
+    $p = new clsKetnoi();
+    $con = $p->MoKetNoi();
+
+    $truyvan = "SELECT u.*, r.name AS role_name
+                FROM Users u
+                JOIN Roles r ON u.role_id = r.id
+                WHERE u.role_id = 4";
+
+    $kq = mysqli_query($con, $truyvan);
+    if (!$kq) {
         $p->DongKetNoi($con);
-        return $kq;
+        die("Lỗi truy vấn SQL ở selectAllNguoiDungNV: " . mysqli_error($con));
     }
+
+    $p->DongKetNoi($con);
+    return $kq;
+}
+
     public function selectAllNguoiDung() {
         $p = new clsKetNoi();
         $truyvan = "SELECT u.*, r.name AS role_name

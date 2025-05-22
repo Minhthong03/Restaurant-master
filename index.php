@@ -20,39 +20,26 @@
 
     <body>
 
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="row">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">Restaurant</a>
-                    </div>
-
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav main-nav  clear navbar-right ">
-                            <li><a class="navactive color_animation" href="#top">WELCOME</a></li>
-                            <li><a class="color_animation" href="#pricing">PRICING</a></li>
-                            <li><a class="color_animation" href="#contact">CONTACT</a></li>
-
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
-                </div>
-            </div><!-- /.container-fluid -->
-        </nav>
-         
+        
         <div id="top" class="starter_container bg">
             <div class="follow_container">
                <ul style="list-style-type:none;padding-left: 0 !important;margin: 0;">
                     <li><?php
                         if(isset($_SESSION["RoleID"])){
                             echo '<a class="color_animation" href="View/dangXuat.php" onclick="return confirm(\'Are you sure to logout?\');">LOGOUT</a>';
+                            echo '<span style="margin: 0 40px;">|</span>';
+                            if ($_SESSION["RoleID"] == 1){
+                            echo '<a class="color_animation" href="nhanvienkho.php">MANAGE</a>';
+                            }
+                            if ($_SESSION["RoleID"] == 2){
+                            echo '<a class="color_animation" href="nhanvientieptan.php">MANAGE</a>';
+                            }
+                            if ($_SESSION["RoleID"] == 3){
+                            echo '<a class="color_animation" href="nhanvienkho.php">MANAGE</a>';
+                            }
+                            if ($_SESSION["RoleID"] == 4){
+                            echo '<a class="color_animation" href="khachhang.php">MANAGE</a>';
+                            }
                         }else{
                             echo '<a class="color_animation" href="?dangnhap">LOGIN</a>';
                             echo '<span style="margin: 0 40px;">|</span>';

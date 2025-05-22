@@ -15,11 +15,10 @@
 </head>
 
 <?php
-    include_once("Controller/controlDishes.php");
-    
+  include_once("Controller/controlDishes.php");
 
     $p = new controlDishes();
-    if (isset($_REQUEST["category_id"])) {
+   if (isset($_REQUEST["category_id"])) {
         $kq = $p->getDishesByCategory($_REQUEST["category_id"]);
     }
     elseif (isset($_GET['category']) && $_GET['category'] !== 'all') {

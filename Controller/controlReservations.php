@@ -2,46 +2,39 @@
 include_once('Model/modelReservations.php');
 
 class controlReservations {
-    // Lấy tất cả bàn đặt cùng tên khách và số bàn
+    // Thêm đặt bàn dựa trên email khách hàng (có thể null)
+    public function addReservationByEmail($customer_email, $table_id, $reservation_time, $number_of_people, $description) {
+        $model = new modelReservations();
+        return $model->insertReservationByEmail($customer_email, $table_id, $reservation_time, $number_of_people, $description);
+    }
+
+    // Cập nhật đặt bàn theo id dựa trên email khách hàng (có thể null)
+    public function updateReservationByEmail($id, $customer_email, $table_id, $reservation_time, $number_of_people, $description) {
+        $model = new modelReservations();
+        return $model->updateReservationByEmail($id, $customer_email, $table_id, $reservation_time, $number_of_people, $description);
+    }
+
+    // Lấy tất cả đặt bàn kèm thông tin chi tiết
     public function getAllReservationsWithDetails() {
-        $p = new modelReservations();
-        $kq = $p->selectAllReservationsWithDetails();
-
-        if (mysqli_num_rows($kq) > 0) {
-            return $kq;
-        } else {
-            return false;
-        }
+        $model = new modelReservations();
+        return $model->selectAllReservationsWithDetails();
     }
 
-    // Thêm bàn đặt mới
-    public function addReservation($customer_id, $table_id, $reservation_time, $number_of_people) {
-        $p = new modelReservations();
-        return $p->insertReservation($customer_id, $table_id, $reservation_time, $number_of_people);
-    }
-
-    // Tìm bàn đặt theo email khách hàng
+    // Tìm đặt bàn theo email khách hàng
     public function getReservationsByEmail($email) {
-        $p = new modelReservations();
-        $kq = $p->selectReservationsByEmail($email);
-
-        if (mysqli_num_rows($kq) > 0) {
-            return $kq;
-        } else {
-            return false;
-        }
+        $model = new modelReservations();
+        return $model->selectReservationsByEmail($email);
     }
 
-    // Cập nhật bàn đặt
-    public function updateReservation($id, $customer_id, $table_id, $reservation_time, $number_of_people) {
-        $p = new modelReservations();
-        return $p->updateReservation($id, $customer_id, $table_id, $reservation_time, $number_of_people);
-    }
-
-    // Xóa bàn đặt
+    // Xóa đặt bàn theo id
     public function deleteReservation($id) {
-        $p = new modelReservations();
-        return $p->deleteReservation($id);
+        $model = new modelReservations();
+        return $model->deleteReservation($id);
     }
+    public function deleteExpiredReservations() {
+    $model = new modelReservations();
+    return $model->deleteExpiredReservations();
+}
+
 }
 ?>

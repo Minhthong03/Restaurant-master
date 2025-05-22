@@ -22,6 +22,17 @@ class controlDishes {
             return false;
         }
     }
+    public function getDishesByName($searchName) {
+    $p = new modelDishes();
+    $kq = $p->selectDishesByName($searchName);
+
+    if (mysqli_num_rows($kq) > 0) {
+        return $kq;
+    } else {
+        return false;
+    }
+}
+
     public function getDishById($dishID) {
         $p = new modelDishes();
         $kq = $p->selectDishById($dishID);

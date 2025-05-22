@@ -17,6 +17,23 @@ class modelDishes {
         $p->DongKetNoi($con);
         return $kq;
     }
+    public function selectDishesByName($searchName) {
+    $p = new clsKetnoi();
+    $con = $p->MoKetNoi();
+
+    $searchName = mysqli_real_escape_string($con, $searchName);
+
+    $truyvan = "SELECT d.*, c.category_name 
+                FROM dishes d 
+                JOIN categories c ON d.category_id = c.id 
+                WHERE d.status = 'active' AND d.dish_name LIKE '%$searchName%'";
+
+    $kq = mysqli_query($con, $truyvan);
+
+    $p->DongKetNoi($con);
+    return $kq;
+}
+
     public function selectAllDishesQL() {
         $p = new clsKetnoi();
         $con = $p->MoKetNoi();

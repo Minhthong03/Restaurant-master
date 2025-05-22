@@ -58,6 +58,8 @@ if (!isset($_SESSION["RoleID"]) || $_SESSION["RoleID"] != 2) {
                     <li><?php
                         if(isset($_SESSION["RoleID"])){
                             echo '<a class="color_animation" href="View/dangXuat.php" onclick="return confirm(\'Are you sure to logout?\');">LOGOUT</a>';
+                            echo '<span style="margin: 0 40px;">|</span>';
+                            echo '<a class="color_animation" href="index.php">HOME</a>';
                         }else{
                             echo '<a class="color_animation" href="?dangnhap">LOGIN</a>';
                         }
@@ -70,7 +72,6 @@ if (!isset($_SESSION["RoleID"]) || $_SESSION["RoleID"] != 2) {
                     <li><a class="color_animation" href="?action=AIngredients">QUẢN LÝ NGUYÊN LIỆU</a></li>
                     <li><a class="color_animation" href="?action=AImportInventory">QUẢN LÝ NHẬP KHO</a></li>
                     <li><a class="color_animation" href="?action=AExportInventory">QUẢN LÝ XUẤT KHÓ</a></li>
-                    <li><a class="color_animation" href="?action=AInventories">XEM THÔNG TIN KHO</a></li>
                     </ul>
             </div>
         </div>
@@ -86,9 +87,6 @@ if (!isset($_SESSION["RoleID"]) || $_SESSION["RoleID"] != 2) {
                         }
                         elseif(isset($_REQUEST["action"])&&$_REQUEST["action"]=="AExportInventory"){
                             include_once("View/AExportInventory.php");
-                        }
-                        elseif(isset($_REQUEST["action"]) && $_REQUEST["action"]=="AInventories"){
-                            include_once("View/AInventories.php");
                         }
                     ?>
                 </ul><!-- @end #portfolio -->
