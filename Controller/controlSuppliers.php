@@ -6,17 +6,17 @@ class controlSuppliers {
     public function getAllSuppliers() {
         $p = new modelSuppliers();
         $result = $p->selectAllSuppliers();
-        if (mysqli_num_rows($result) > 0) {
+        if ($result && mysqli_num_rows($result) > 0) {
             return $result;
         } else {
             return false;
         }
     }
 
-    // Thêm nhà cung cấp mới
+    // Thêm nhà cung cấp mới, trả về ID hoặc false
     public function insertSupplier($name, $contact) {
-        $p = new modelSuppliers();
-        return $p->insertSupplier($name, $contact);
+        $model = new modelSuppliers();
+        return $model->insertSupplier($name, $contact);
     }
 
     // Cập nhật nhà cung cấp
@@ -29,6 +29,13 @@ class controlSuppliers {
     public function getSupplierById($id) {
         $p = new modelSuppliers();
         return $p->selectSupplierById($id);
+    }
+
+    // Kiểm tra tên nhà cung cấp đã tồn tại chưa, trả về true/false
+    public function checkSupplierNameExists($supplierName) {
+        $p = new modelSuppliers();
+        $result = $p->getSupplierByName($supplierName);
+        return $result && mysqli_num_rows($result) > 0;
     }
 }
 ?>
