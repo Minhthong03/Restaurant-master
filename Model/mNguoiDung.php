@@ -66,23 +66,24 @@ class mNguoiDung {
         $p->DongKetNoi($con);
         return $kq;
     }
-    public function udNguoiDung($id, $username, $email, $password, $phone,$address, $role_id, $status) {
-        $p = new clsKetNoi();
-        $con = $p->MoKetNoi();
-        $password = md5($password); // Hashing the password
-        $sql = "UPDATE users SET 
-                    username = '$username', 
-                    email = '$email', 
-                    password = '$password', 
-                    phone = '$phone', 
-                    address='$address'
-                    role_id = $role_id, 
-                    status = '$status'
-                WHERE id = $id";
-        $kq = mysqli_query($con, $sql);
-        $p->DongKetNoi($con);
-        return $kq;
-    }
+    public function udNguoiDung($id, $username, $email, $password, $phone, $address, $role_id, $status) {
+    $p = new clsKetNoi();
+    $con = $p->MoKetNoi();
+    $password = md5($password); // Mã hóa password trước khi lưu
+    $sql = "UPDATE users SET 
+                username = '$username', 
+                email = '$email', 
+                password = '$password', 
+                phone = '$phone', 
+                address = '$address',
+                role_id = $role_id, 
+                status = '$status'
+            WHERE id = $id";
+    $kq = mysqli_query($con, $sql);
+    $p->DongKetNoi($con);
+    return $kq;
+}
+
     // Kiểm tra email có tồn tại trong cơ sở dữ liệu
 public function getEmailByEmail($email) {
     $p = new clsKetNoi();

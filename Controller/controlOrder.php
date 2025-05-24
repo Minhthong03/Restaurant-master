@@ -24,6 +24,10 @@ public function getOrdersByCustomerAndStatus($customer_id, $status = 'Tất cả
     $p = new modelOrder();
     return $p->selectOrdersByCustomerAndStatus($customer_id, $status);
 }
+public function updateOrderStatus($orderId, $status) {
+    $p = new modelOrder();  // mOrder là model xử lý bảng orders
+    return $p->updateStatus($orderId, $status);
+}
 
 
 

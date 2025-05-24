@@ -18,27 +18,12 @@
     </head>
 
     <body>
-
-        
         <div id="top" class="starter_container bg">
             <div class="follow_container">
-               <ul style="list-style-type:none;padding-left: 0 !important;margin: 0;">
+               <ul style="list-style-type:none;background-color:#ff5722;padding-left: 0 !important;margin: 0;">
                     <li><?php
                         if(isset($_SESSION["RoleID"])){
-                            echo '<a class="color_animation" href="View/dangXuat.php" onclick="return confirm(\'Are you sure to logout?\');">LOGOUT</a>';
-                            echo '<span style="margin: 0 40px;">|</span>';
-                            if ($_SESSION["RoleID"] == 1){
-                            echo '<a class="color_animation" href="nhanvienkho.php">MANAGE</a>';
-                            }
-                            if ($_SESSION["RoleID"] == 2){
-                            echo '<a class="color_animation" href="nhanvientieptan.php">MANAGE</a>';
-                            }
-                            if ($_SESSION["RoleID"] == 3){
-                            echo '<a class="color_animation" href="nhanvienkho.php">MANAGE</a>';
-                            }
-                            if ($_SESSION["RoleID"] == 4){
-                            echo '<a class="color_animation" href="khachhang.php">MANAGE</a>';
-                            }
+                            echo '<a class="color_animation" href="View/dangXuat.php" onclick="return confirm(\'Are you sure to logout?\');">LOGOUT</a>';                            
                         }else{
                             echo '<a class="color_animation" href="?dangnhap">LOGIN</a>';
                             echo '<span style="margin: 0 40px;">|</span>';
@@ -48,18 +33,25 @@
                             include_once("View/dangNhap.php");
                         }elseif(isset($_GET["account"])){
                             include_once("View/account.php");
+                        }else{
+                            echo '<form class="search-form" action="' . basename($_SERVER['PHP_SELF']) . '" method="GET" style="background-color:#ff5722;">';
+                            echo '<input type="hidden" name="action" value="timkiem" />';
+                            echo '<input type="text" name="query" placeholder="Tìm kiếm sản phẩm..." required>';
+                            echo '<button type="submit">Tìm</button>';
+                            echo '</form>';
+
                         }
                         ?>
                     </li>
-                    <hr>  
-                    <li>
-                        <?php
-                            include_once("View/Categories.php");
-                        ?>
-                    </li>
+                    
                     </ul>
+                    
+                    <div>
+                        <?php include_once("View/Categories.php"); ?>
+                    </div>     
             </div>
         </div>
+        
         <section id ="pricing" class="description_content">
             <div class="text-content container"> 
                 <div class="container">
@@ -70,6 +62,9 @@
                                     <?php
                                         if(isset($_REQUEST["action"])&&$_REQUEST["action"]=="xemctsp"){
                                             include_once("View/monan.php");
+                                        }
+                                        elseif(isset($_REQUEST["action"])&&$_REQUEST["action"]=="timkiem"){
+                                            include_once("View/timkiem.php");
                                         }
                                         else{
                                             include_once("View/Products.php");

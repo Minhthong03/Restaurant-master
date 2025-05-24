@@ -63,29 +63,35 @@ if ($editId > 0) {
 
         // Xử lý khi bấm "Lưu thay đổi"
         if (isset($_POST["btnUpdate"])) {
-            $id = $_POST["id"];
-            $dish_name = $_POST["dish_name"];
-            $price = $_POST["price"];
-            $category_id = $_POST["category_id"];
-            $description = $_POST["description"];
-            $status = $_POST["status"];
-            $image = isset($_FILES["image"]) ? $_FILES["image"] : null;
+    $id = $_POST["id"];
+    $dish_name = $_POST["dish_name"];
+    $price = $_POST["price"];
+    $category_id = $_POST["category_id"];
+    $description = $_POST["description"];
+    $status = $_POST["status"];
+    $image = isset($_FILES["image"]) ? $_FILES["image"] : null;
 
-            if ($image && $image['error'] == 0) {
-                $image_name = $image['name'];
-                move_uploaded_file($image['tmp_name'], 'images/Dishes/' . $image_name);
-            } else {
-                $image_name = $r['image']; // Không thay đổi ảnh nếu không có ảnh mới
-            }
-
-            // Cập nhật món ăn
-            $updateResult = $p->updateDish($id, $dish_name, $price, $category_id, $image_name, $description, $status);
-            if ($updateResult) {
-                echo "<script>alert('Cập nhật món ăn thành công!'); window.location.href = 'admin.php?action=ADishes';</script>";
-            } else {
-                echo "<script>alert('Cập nhật món ăn thất bại!');</script>";
-            }
+    // Kiểm tra trùng tên món ngoại trừ chính món hiện tại
+    if ($p->checkDishNameExistsExceptId($dish_name, $id)) {
+        echo "<script>alert('Tên món đã tồn tại. Vui lòng chọn tên khác!');</script>";
+    } else {
+        if ($image && $image['error'] == 0) {
+            $image_name = $image['name'];
+            move_uploaded_file($image['tmp_name'], 'images/Dishes/' . $image_name);
+        } else {
+            $image_name = $r['image']; // Không thay đổi ảnh nếu không có ảnh mới
         }
+
+        // Cập nhật món ăn
+        $updateResult = $p->updateDish($id, $dish_name, $price, $category_id, $image_name, $description, $status);
+        if ($updateResult) {
+            echo "<script>alert('Cập nhật món ăn thành công!'); window.location.href = 'admin.php?action=ADishes';</script>";
+        } else {
+            echo "<script>alert('Cập nhật món ăn thất bại!');</script>";
+        }
+    }
+}
+
     }
 }
 
@@ -128,13 +134,18 @@ elseif ($addMode) {
 
     // Xử lý khi bấm "Thêm mới"
     if (isset($_POST["btnInsert"])) {
-        $dish_name = $_POST["dish_name"];
-        $price = $_POST["price"];
-        $category_id = $_POST["category_id"];
-        $description = $_POST["description"];
-        $status = $_POST["status"];
-        $image = $_FILES["image"];
-        $image_name = $image['name'];
+    $dish_name = $_POST["dish_name"];
+    $price = $_POST["price"];
+    $category_id = $_POST["category_id"];
+    $description = $_POST["description"];
+    $status = $_POST["status"];
+    $image = $_FILES["image"];
+    $image_name = $image['name'];
+
+    // Kiểm tra trùng tên món
+    if ($p->checkDishNameExists($dish_name)) {
+        echo "<script>alert('Tên món đã tồn tại. Vui lòng chọn tên khác!');</script>";
+    } else {
         move_uploaded_file($image['tmp_name'], 'images/Dishes/' . $image_name);
 
         // Thêm món ăn
@@ -145,6 +156,7 @@ elseif ($addMode) {
             echo "<script>alert('Thêm món ăn thất bại!');</script>";
         }
     }
+}
 } else {
     // Tìm kiếm món ăn theo ID
     $searchId = isset($_GET['searchId']) ? trim($_GET['searchId']) : '';

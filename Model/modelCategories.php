@@ -40,6 +40,25 @@ public function selectCategoryById($searchId) {
     $p->DongKetNoi($con);
     return $result;
 }
+// Kiểm tra tên danh mục đã tồn tại chưa (thêm mới)
+public function checkCategoryNameExists($category_name) {
+    $p = new clsKetnoi();
+    $con = $p->MoKetNoi();
+    $query = "SELECT * FROM Categories WHERE category_name = '$category_name'";
+    $result = mysqli_query($con, $query);
+    $p->DongKetNoi($con);
+    return mysqli_num_rows($result) > 0; // Nếu có dữ liệu trả về là đã tồn tại
+}
+
+// Kiểm tra tên danh mục đã tồn tại chưa khi cập nhật (ngoại trừ id hiện tại)
+public function checkCategoryNameExistsExceptId($category_name, $id) {
+    $p = new clsKetnoi();
+    $con = $p->MoKetNoi();
+    $query = "SELECT * FROM Categories WHERE category_name = '$category_name' AND id != $id";
+    $result = mysqli_query($con, $query);
+    $p->DongKetNoi($con);
+    return mysqli_num_rows($result) > 0;
+}
 
     
 }

@@ -98,7 +98,7 @@ class cNguoiDung {
         return $p->insertNguoiDung($username, $email, $password, $phone,$address, $role_id, $status);
     }
     // Phương thức sửa người dùng
-public function updateNguoiDung($id, $username, $email, $password, $phone,$address, $role_id, $status) {
+public function updateNguoiDung($id, $username, $email, $password, $phone, $address, $role_id, $status) {
     // Kiểm tra email trùng với người khác
     $existingEmail = $this->checkEmailExistsForUpdate($email, $id); 
     
@@ -107,8 +107,9 @@ public function updateNguoiDung($id, $username, $email, $password, $phone,$addre
     }
 
     $p = new mNguoiDung();
-    return $p->udNguoiDung($id, $username, $email, $password, $phone,$address, $role_id, $status);
+    return $p->udNguoiDung($id, $username, $email, $password, $phone, $address, $role_id, $status);
 }
+
     // Kiểm tra email có trùng trong cơ sở dữ liệu
 public function checkEmailExists($email) {
     $p = new mNguoiDung();

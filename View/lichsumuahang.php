@@ -140,7 +140,7 @@
             <!-- Load chi tiết đơn -->
         </tbody>
     </table>
-    <button class="btn-back btn-danger " id="btn-back ">Quay lại</button>
+    <button class="btn-back btn-danger " id="btn-back">Quay lại</button>
 </div>
 
 <script>
@@ -275,13 +275,15 @@ $(document).ready(function(){
     });
 
     // Quay lại danh sách đơn
-    $('#btn-back').click(function(){
-        $('#order-details-container').hide();
-        $('#order-list-container').show();
-        // Reload lại danh sách đơn theo trạng thái hiện tại
-        var status = $('#status').val();
-        loadOrders(status);
-    });
+    // Sử dụng event delegation gán sự kiện, phòng trường hợp nút được tạo động
+$(document).on('click', '#btn-back', function() {
+    console.log('Nút Quay lại được nhấn');
+    $('#order-details-container').hide();
+    $('#order-list-container').show();
+
+    var status = $('#status').val();
+    loadOrders(status);
+});
 });
 </script>
 

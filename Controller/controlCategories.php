@@ -29,6 +29,17 @@ public function getCategoryById($searchId) {
     $p = new modelCategories();
     return $p->selectCategoryById($searchId); // Gọi phương thức trong model để truy vấn theo ID
 }
+// Kiểm tra tên danh mục đã tồn tại (thêm mới)
+public function checkCategoryNameExists($category_name) {
+    $p = new modelCategories();
+    return $p->checkCategoryNameExists($category_name);
+}
+
+// Kiểm tra tên danh mục đã tồn tại khi cập nhật (ngoại trừ id hiện tại)
+public function checkCategoryNameExistsExceptId($category_name, $id) {
+    $p = new modelCategories();
+    return $p->checkCategoryNameExistsExceptId($category_name, $id);
+}
 
     
 }

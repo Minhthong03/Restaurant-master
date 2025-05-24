@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<?php session_start();?>
+<?php session_start();
+if (!isset($_SESSION["RoleID"]) || $_SESSION["RoleID"] != 4) {
+    echo "<script>alert('Không có quyền truy cập');</script>";
+    header("refresh:0;url='index.php'");
+    exit;
+}?>
 <html>
 
     <head>
@@ -20,27 +25,25 @@
 
     </head>
 
-    <body>
-
-       
-         
+    <body>   
         <div id="top" class="starter_container bg">
             <div class="follow_container">
                <ul style="list-style-type:none;background-color:#ff5722;padding-left: 0 !important;margin: 0;">
                     <li><?php
                         if(isset($_SESSION["RoleID"])){
-                            echo '<a class="color_animation" href="index.php">HOME</a>';
-                            echo '<span style="margin: 0 40px;">|</span>';
                             echo '<a class="color_animation" href="View/dangXuat.php" onclick="return confirm(\'Are you sure to logout?\');">LOGOUT</a>';
                             echo '<span style="margin: 0 40px;">|</span>';
                             echo '<a class="color_animation" href="?action=giohang">GIỎ HÀNG</a>';
                             echo '<span style="margin: 0 40px;">|</span>';
                             echo '<a class="color_animation" href="?action=lisumuahang">lỊCH SỬ MUA HÀNG</a>';
+                            echo '<span style="margin: 0 40px;">|</span>';
+                            echo '<a class="color_animation" href="?action=taikhoan">QUẢN LÝ TÀI KHOẢN</a>';
                         }
                         ?>
                     </li>
                     </ul>
-                    <form class="search-form" action="timkiem.php" method="GET" style="background-color:#ff5722;">
+                    <form class="search-form" action="<?= basename($_SERVER['PHP_SELF']) ?>" method="GET" style="background-color:#ff5722;">
+                        <input type="hidden" name="action" value="timkiem" />
                         <input type="text" name="query" placeholder="Tìm kiếm sản phẩm..." required>
                         <button type="submit">Tìm</button>
                     </form>
@@ -57,18 +60,28 @@
                     <ul id="portfolio">
                         <li>
                             <?php
-                                if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "xemctsp"){
-                                    include_once("View/monan.php");
-                                } 
-                                elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "giohang"){
-                                    include_once("View/giohang.php");
+                                $action = $_REQUEST['action'] ?? '';
+
+                                switch ($action) {
+                                    case 'xemctsp':
+                                        include_once("View/monan.php");
+                                        break;
+                                    case 'giohang':
+                                        include_once("View/giohang.php");
+                                        break;
+                                    case 'lisumuahang':
+                                        include_once("View/lichsumuahang.php");
+                                        break;
+                                    case 'timkiem':
+                                        include_once("View/timkiem.php");  // Gọi file tìm kiếm
+                                        break;
+                                    case 'taikhoan':
+                                        include_once("View/taikhoan.php");
+                                        break;
+                                    default:
+                                        include_once("View/Products.php");
+                                        break;
                                 }
-                                elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "lisumuahang"){
-                                    include_once("View/lichsumuahang.php");
-                                }
-                                else{
-                                    include_once("View/Products.php");
-                                }                                  
                             ?>
                         </li>
                     </ul><!-- @end #portfolio -->

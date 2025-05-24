@@ -78,6 +78,7 @@ if (isset($_POST["btnDN"])) {
         <div style="text-align:center;">
             <input type="submit" name="btnDN" value="Đăng nhập">
             <input type="reset" value="Nhập lại">
+            <a href="index.php" style="display:inline-block; padding: 12px 25px; background-color:#6c757d; color:white; border-radius:5px; text-decoration:none; cursor:pointer;">Quay lại</a>
         </div>
     </form>
 </div>

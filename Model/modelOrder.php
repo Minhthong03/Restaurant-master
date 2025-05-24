@@ -75,6 +75,19 @@ public function selectOrdersByCustomerAndStatus($customer_id, $status = 'Tất c
     $p->DongKetNoi($con);
     return $result;
 }
+public function updateStatus($orderId, $status) {
+    $p = new clsKetNoi();
+    $con = $p->MoKetNoi();
+
+    $orderId = intval($orderId);
+    $status = mysqli_real_escape_string($con, $status);
+
+    $sql = "UPDATE orders SET status = '$status' WHERE id = $orderId";
+    $result = mysqli_query($con, $sql);
+    $p->DongKetNoi($con);
+
+    return $result;
+}
 
 
 

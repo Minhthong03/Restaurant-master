@@ -16,42 +16,42 @@
         color: #000 !important;
     }
     button.btn-primary, button.btn-danger {
-        color: #000 !important;}
+        color: #000 !important;
+    }
     #dishesList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding-left: 0;
-  list-style: none;
-  justify-content: flex-start;
-}
-#dishesList li {
-  flex: 1 1 calc(50% - 10px);
-  border: 1px solid #ccc;
-  padding: 10px;
-  box-sizing: border-box;
-  min-height: 180px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  text-align: center;
-  word-wrap: break-word;
-  overflow: hidden;
-}
-#dishesList li h6 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 3em;
-  margin-bottom: 10px;
-}
-#dishesList li button {
-  margin-top: auto;
-  padding: 5px 10px;
-}
-    
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-left: 0;
+      list-style: none;
+      justify-content: flex-start;
+    }
+    #dishesList li {
+      flex: 1 1 calc(50% - 10px);
+      border: 1px solid #ccc;
+      padding: 10px;
+      box-sizing: border-box;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      word-wrap: break-word;
+      overflow: hidden;
+    }
+    #dishesList li h6 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 3em;
+      margin-bottom: 10px;
+    }
+    #dishesList li button {
+      margin-top: auto;
+      padding: 5px 10px;
+    }
 </style>
 
 <?php
@@ -60,6 +60,7 @@ include_once("Controller/controlOrderDetail.php");
 include_once("Controller/controlTable.php");
 include_once("Controller/controlDishes.php");
 include_once("Controller/controlCategories.php");
+
 $orderId = isset($_GET['viewOrderDetail']) ? intval($_GET['viewOrderDetail']) : 0;
 $addMode = isset($_GET['addOrder']) ? true : false;
 
@@ -67,20 +68,20 @@ echo '<style>
     .table td, .table th { color: #000; vertical-align: middle; }
     .order-container { margin-top: 40px; }
 </style>';
+
 if ($orderId > 0) {
     $detailCtrl = new controlOrderDetail();
     $details = $detailCtrl->getOrderDetailsByOrderId($orderId);
-    // Lấy thêm thông tin đơn hàng (mô tả)
+
     $orderCtrl = new controlOrder();
     $order = $orderCtrl->getOrderById($orderId);
     $orderDescription = '';
     if ($order && $rowOrder = mysqli_fetch_assoc($order)) {
-        $orderDescription = $rowOrder['description']; // cột ghi chú đơn hàng
+        $orderDescription = $rowOrder['description'];
     }
+
     echo '<div class="order-container container">';
     echo '<h4 class="text-center">Chi tiết đơn hàng #' . $orderId . '</h4>';
-    
-    // Hiển thị ghi chú đơn hàng ở trên bảng
     echo '<div class="mb-3"><strong>Ghi chú đơn hàng:</strong> ' . htmlspecialchars($orderDescription) . '</div>';
 
     if (!$details) {
@@ -106,7 +107,7 @@ if ($orderId > 0) {
         echo '</tbody></table>';
     }
 
-echo '<a href="nhanvientieptan.php?action=AOrderNV#pricing" class="btn btn-sm btn-danger" style="text-decoration: none;">Quay lại</a>';
+    echo '<a href="nhanvientieptan.php?action=AOrderNV" class="btn btn-sm btn-danger" style="text-decoration: none;">Quay lại</a>';
 
 }
 
@@ -209,12 +210,14 @@ else {
     $p = new controlOrder();
     $order_id = isset($_GET["order_id"]) ? trim($_GET["order_id"]) : '';
     $kq = $p->getAllOrders();
+
     echo '<h2 class="mb-4 text-center text-dark">Quản lý đơn hàng</h2>';
+
     $b = new controlTable();
     $tableResult = $b->getAllTables();
     while ($h = mysqli_fetch_assoc($tableResult)) {
-    echo '<a href="nhanvientieptan.php?action=AOrderNV&addOrder=true&table_id=' . $h["id"] . '#pricing" class="btn btn-success" style="text-decoration: none;">' . htmlspecialchars($h["table_number"]) . '</a>';
-}
+        echo '<a href="nhanvientieptan.php?action=AOrderNV&addOrder=true&table_id=' . $h["id"] . '" class="btn btn-success" style="text-decoration: none;">' . htmlspecialchars($h["table_number"]) . '</a> ';
+    }
 
     echo '<div class="order-container container">';
     echo '<form method="GET" class="row mb-4 justify-content-center">';
@@ -247,17 +250,44 @@ else {
             $found = true;
             echo '<tr>';
             echo '<td>' . $r["id"] . '</td>';
-echo '<td>' . (!empty($r["username"]) ? htmlspecialchars($r["username"]) : 'Ẩn danh') . '</td>';    
+            echo '<td>' . (!empty($r["username"]) ? htmlspecialchars($r["username"]) : 'Ẩn danh') . '</td>';
             echo '<td>' . $r["order_date"] . '</td>';
             echo '<td>' . number_format($r["total_amount"], 0, ',', '.') . ' đ</td>';
-            echo '<td>' . htmlspecialchars($r["status"]) . '</td>';
+
+            // Hiển thị trạng thái có dropdown để cập nhật
+            echo '<td>';
+            if ($r["status"] == 'Đã hủy') {
+                echo 'Đã hủy';
+            } else {
+                echo '<form method="POST" action="processOrder.php" style="display:inline-block;">';
+                echo '<input type="hidden" name="order_id" value="' . $r["id"] . '">';
+                echo '<select name="status" onchange="this.form.submit()">';
+                
+                $status = $r["status"];
+                if ($status == 'Chờ xác nhận') {
+                    echo '<option value="Chờ xác nhận" selected>Chờ xác nhận</option>';
+                    echo '<option value="Đang xử lý">Đang xử lý</option>';
+                    echo '<option value="Đã giao">Đã giao</option>';
+                    echo '<option value="Đã hủy">Đã hủy</option>';
+                } elseif ($status == 'Đang xử lý') {
+                    echo '<option value="Đang xử lý" selected>Đang xử lý</option>';
+                    echo '<option value="Đã giao">Đã giao</option>';
+                } elseif ($status == 'Đã giao') {
+                    echo '<option value="Đã giao" selected>Đã giao</option>';
+                }
+
+                echo '</select>';
+                echo '</form>';
+            }
+            echo '</td>';
+
             echo '<td>' . htmlspecialchars($r["table_number"]) . '</td>';
-            echo '<td><a href="nhanvientieptan.php?action=AOrderNV&viewOrderDetail=' . $r["id"] . '#pricing" class="btn btn-sm btn-info">Xem</a></td>';
+            echo '<td><a href="nhanvientieptan.php?action=AOrderNV&viewOrderDetail=' . $r["id"] . '" class="btn btn-sm btn-info">Xem</a></td>';
             echo '</tr>';
         }
 
         if (!$found && $order_id !== '') {
-            echo '<tr><td colspan="6" class="text-danger">Không tìm thấy mã đơn <strong>' . htmlspecialchars($order_id) . '</strong></td></tr>';
+            echo '<tr><td colspan="7" class="text-danger">Không tìm thấy mã đơn <strong>' . htmlspecialchars($order_id) . '</strong></td></tr>';
         }
 
         echo '</tbody></table>';

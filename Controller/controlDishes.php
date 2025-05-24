@@ -32,6 +32,16 @@ class controlDishes {
         return false;
     }
 }
+public function checkDishNameExists($dishName) {
+    $p = new modelDishes(); // Giả sử bạn có class mDishes để thao tác với bảng dishes
+    $result = $p->getDishByName($dishName); // Gọi hàm getDishByName trong model để lấy kết quả
+    return mysqli_num_rows($result) > 0; // Nếu có dữ liệu trả về thì món đã tồn tại
+}
+public function checkDishNameExistsExceptId($dishName, $id) {
+    $p = new modelDishes(); // Class model thao tác với bảng dishes
+    $result = $p->getDishByNameExceptId($dishName, $id); // Gọi hàm model kiểm tra tên món trùng ngoại trừ món hiện tại
+    return mysqli_num_rows($result) > 0; // Nếu có dữ liệu trả về thì tên món đã tồn tại
+}
 
     public function getDishById($dishID) {
         $p = new modelDishes();

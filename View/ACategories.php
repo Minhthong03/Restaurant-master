@@ -32,6 +32,12 @@ if ($editId > 0) {
             $category_name = $_POST["category_name"];
             $description = $_POST["description"];
 
+            // Kiểm tra tên danh mục đã tồn tại (ngoại trừ chính nó)
+            if ($p->checkCategoryNameExistsExceptId($category_name, $editId)) {
+                echo "<script>alert('Tên danh mục đã tồn tại! Vui lòng chọn tên khác.'); window.history.back();</script>";
+                exit();
+            }
+
             // Cập nhật danh mục
             $updateResult = $p->updateCategory($editId, $category_name, $description);
             if ($updateResult) {
@@ -42,7 +48,6 @@ if ($editId > 0) {
         }
     }
 }
-
 
 // Nếu là form "Thêm danh mục"
 elseif ($addMode) {
@@ -65,6 +70,12 @@ elseif ($addMode) {
     if (isset($_POST["btnInsert"])) {
         $category_name = $_POST["category_name"];
         $description = $_POST["description"];
+
+        // Kiểm tra tên danh mục đã tồn tại
+        if ($p->checkCategoryNameExists($category_name)) {
+            echo "<script>alert('Tên danh mục đã tồn tại! Vui lòng chọn tên khác.'); window.history.back();</script>";
+            exit();
+        }
 
         // Thêm danh mục
         $insertResult = $p->insertCategory($category_name, $description);

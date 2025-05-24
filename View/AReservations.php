@@ -189,7 +189,7 @@ else {
     echo '</div>';
     echo '<div class="col-auto">';
     echo '<button type="submit" class="btn btn-primary">Tìm kiếm</button>';
-    echo '<a href="nhanvientieptan.php?action=AReservations#pricing" class="btn btn-danger">Hủy</a>';
+    echo '<a href="nhanvientieptan.php?action=AReservations" class="btn btn-danger">Hủy</a>';
     echo '</div>';
     echo '</form>';
 

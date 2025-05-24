@@ -24,34 +24,7 @@ if (!isset($_SESSION["RoleID"]) || $_SESSION["RoleID"] != 1) {
         <link rel="icon" href="favicon-1.ico" type="image/x-icon">
     </head>
 
-    <body>
-
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="row">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">Restaurant</a>
-                    </div>
-
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav main-nav  clear navbar-right ">
-                            <li><a class="navactive color_animation" href="#top">WELCOME</a></li>
-                            <li><a class="color_animation" href="#pricing">QUẢN LÝ</a></li>
-                            <li><a class="color_animation" href="#contact">CONTACT</a></li>
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
-                </div>
-            </div><!-- /.container-fluid -->
-        </nav>
-         
+    <body>         
         <div id="top" class="starter_container bg">
             <div class="follow_container">
                <ul style="list-style-type:none;padding-left: 0 !important;margin: 0;">

@@ -33,6 +33,23 @@ class modelDishes {
     $p->DongKetNoi($con);
     return $kq;
 }
+public function getDishByName($dishName) {
+    $p = new clsKetNoi();
+    $con = $p->MoKetNoi();
+    // Chuẩn bị câu truy vấn, sử dụng LIKE hoặc so sánh chính xác tùy bạn
+    $truyvan = "SELECT * FROM dishes WHERE dish_name = '$dishName'";
+    $kq = mysqli_query($con, $truyvan);
+    $p->DongKetNoi($con);
+    return $kq;
+}
+public function getDishByNameExceptId($dish_name, $id) {
+    $p = new clsKetNoi();
+    $con = $p->MoKetNoi();
+    $truyvan = "SELECT * FROM dishes WHERE dish_name = '$dish_name' AND id != $id";
+    $kq = mysqli_query($con, $truyvan);
+    $p->DongKetNoi($con);
+    return $kq;
+}
 
     public function selectAllDishesQL() {
         $p = new clsKetnoi();

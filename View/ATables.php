@@ -35,7 +35,7 @@ if (isset($_POST['btnUpdateStatus'])) {
 $tables = $t->getAllTables();
 
 echo '<h2>Quản lý bàn</h2>';
-echo '<a href="nhanvientieptan.php?action=ATables&add=true#pricing" class="btn btn-success mb-3">Thêm bàn mới</a>';
+echo '<a href="nhanvientieptan.php?action=ATables&add=true" class="btn btn-success mb-3">Thêm bàn mới</a>';
 
 // Nếu ở trang thêm bàn
 if (isset($_GET['add'])) {
@@ -47,7 +47,7 @@ if (isset($_GET['add'])) {
     echo '<option value="Occupied">Occupied</option>';
     echo '</select></div>';
     echo '<button type="submit" name="btnAdd" class="btn btn-primary">Thêm bàn</button> ';
-    echo '<a href="nhanvientieptan.php?action=ATables#pricing" class="btn btn-secondary btn-danger">Hủy</a>';
+    echo '<a href="nhanvientieptan.php?action=ATables" class="btn btn-secondary btn-danger">Hủy</a>';
     echo '</form>';
 }
 

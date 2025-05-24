@@ -5,7 +5,23 @@ include_once("Controller/controlOrderDetail.php");
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die("Phương thức không hợp lệ");
 }
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id']) && isset($_POST['status'])) {
+    $orderId = intval($_POST['order_id']);
+    $newStatus = $_POST['status'];
 
+    $orderCtrl = new controlOrder();
+    $updated = $orderCtrl->updateOrderStatus($orderId, $newStatus);
+
+    if ($updated) {
+        // Cập nhật thành công, quay về trang quản lý đơn hàng
+        header("Location: nhanvientieptan.php?action=AOrderNV");
+        exit();
+    } else {
+        // Thông báo lỗi nếu muốn
+        echo "Cập nhật trạng thái đơn hàng thất bại.";
+        exit();
+    }
+}
 // Lấy dữ liệu từ form
 $customer_id = isset($_POST['customer_id']) && intval($_POST['customer_id']) > 0 ? intval($_POST['customer_id']) : null;
 $table_id = intval($_POST['table_id'] ?? 0);

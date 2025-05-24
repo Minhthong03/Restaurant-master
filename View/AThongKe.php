@@ -30,7 +30,7 @@ echo '
         <input type="date" name="to" class="form-control" value="' . htmlspecialchars($to) . '">
     </div>
     <div class="col-auto align-self-end">
-        <button type="submit" class="btn btn-success">📊 Xem thống kê</button>
+        <button type="submit" class="btn btn-success">📊Thống kê</button>
     </div>
 </form>';
 
@@ -60,7 +60,7 @@ if ($kq && mysqli_num_rows($kq) > 0) {
         echo '<tr>';
         echo '<td>' . $r['id'] . '</td>';
         echo '<td>' . $r['order_date'] . '</td>';
-        echo '<td>' . htmlspecialchars($r['full_name']) . '</td>';
+        echo '<td>' . htmlspecialchars($r['username']) . '</td>';
         echo '<td>' . htmlspecialchars($r['status']) . '</td>';
         echo '<td>' . number_format($r['total_amount'], 0, ',', '.') . ' đ</td>';
         echo '</tr>';
@@ -71,7 +71,7 @@ if ($kq && mysqli_num_rows($kq) > 0) {
     }
 
     echo '</tbody></table>';
-    echo '<div class="text-end fw-bold fs-5">Tổng doanh thu: <span class="text-success">' . number_format($total, 0, ',', '.') . ' đ</span></div>';
+echo '<div class="text-end fw-bold fs-3">Tổng doanh thu: <span style="color: red; font-size: 2rem;">' . number_format($total, 0, ',', '.') . ' đ</span></div>';
 } else {
     echo '<div class="alert alert-warning text-center">❌ Không có dữ liệu đơn hàng.</div>';
 }
