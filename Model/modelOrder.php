@@ -53,6 +53,30 @@ class modelOrder {
     $p->DongKetNoi($con);
     return $order_id;
 }
+public function selectOrdersByCustomerAndStatus($customer_id, $status = 'Tất cả') {
+    $p = new clsKetNoi();
+    $con = $p->MoKetNoi();
+
+    if ($status === 'Tất cả') {
+        // Lấy tất cả đơn hàng của khách, không lọc trạng thái
+        $sql = "SELECT * FROM orders WHERE customer_id = ? ORDER BY order_date DESC";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("i", $customer_id);
+    } else {
+        // Lọc theo trạng thái cụ thể
+        $sql = "SELECT * FROM orders WHERE customer_id = ? AND status = ? ORDER BY order_date DESC";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("is", $customer_id, $status);
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $p->DongKetNoi($con);
+    return $result;
+}
+
+
 
 }
 ?>

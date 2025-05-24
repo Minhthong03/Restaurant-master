@@ -70,7 +70,7 @@
                                     <?php
                                         if(isset($_REQUEST["action"])&&$_REQUEST["action"]=="xemctsp"){
                                             include_once("View/monan.php");
-                                        } 
+                                        }
                                         else{
                                             include_once("View/Products.php");
                                         }                                  

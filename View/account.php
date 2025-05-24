@@ -60,7 +60,6 @@
 </style>
 
 <?php
-include_once("Controller/cNguoiDung.php");
 if (isset($_POST["btnDK"])) {
     include_once("Controller/cNguoiDung.php");
     $p = new cNguoiDung();
@@ -81,7 +80,7 @@ if (isset($_POST["btnDK"])) {
 
             // Kiểm tra kết quả
             if ($kq) {
-                echo "<script>alert('Thêm người dùng thành công!'); window.location.href = 'index.php';</script>";
+                echo "<script>alert('Thêm người dùng thành công!'); window.location.href = 'index.php';</script>";   
             } else {
                 echo "<script>alert('Thêm người dùng thất bại!');</script>";
             }

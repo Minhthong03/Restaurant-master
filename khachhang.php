@@ -16,6 +16,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link rel="icon" href="favicon-1.ico" type="image/x-icon">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     </head>
 
     <body>
@@ -33,7 +35,7 @@
                             echo '<span style="margin: 0 40px;">|</span>';
                             echo '<a class="color_animation" href="?action=giohang">GIỎ HÀNG</a>';
                             echo '<span style="margin: 0 40px;">|</span>';
-                            echo '<a class="color_animation" href="?action=AThongKe"">lỊCH SỬ MUA HÀNG</a>';
+                            echo '<a class="color_animation" href="?action=lisumuahang">lỊCH SỬ MUA HÀNG</a>';
                         }
                         ?>
                     </li>
@@ -48,34 +50,37 @@
             </div>
         </div>
         <section id ="pricing" class="description_content">
-            <div class="text-content container"> 
-                <div class="container">
-                    <div class="row">
-                            <div id="w">
-                            <ul id="portfolio">
-                                <li>
-                                    <?php
-                                        if(isset($_REQUEST["action"])&&$_REQUEST["action"]=="xemctsp"){
-                                            include_once("View/monan.php");
-                                        } 
-                                        elseif(isset($_REQUEST["action"])&&$_REQUEST["action"]=="giohang"){
-                                            include_once("View/giohang.php");
-                                        } 
-                                        else{
-                                            include_once("View/Products.php");
-                                        }                                  
-                                    ?>
-                                </li>
-                            </ul><!-- @end #portfolio -->
-                        </div><!-- @end #w -->
-                            <!-- Phần này sẽ hiển thị chi tiết sản phẩm -->
-                        <div id="product-details" class="container" style="display: none;">
-                            <!-- Thông tin chi tiết sản phẩm sẽ được hiển thị ở đây -->
-                        </div>
-                    </div>
+    <div class="text-content container"> 
+        <div class="container">
+            <div class="row">
+                <div id="w">
+                    <ul id="portfolio">
+                        <li>
+                            <?php
+                                if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "xemctsp"){
+                                    include_once("View/monan.php");
+                                } 
+                                elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "giohang"){
+                                    include_once("View/giohang.php");
+                                }
+                                elseif(isset($_REQUEST["action"]) && $_REQUEST["action"] == "lisumuahang"){
+                                    include_once("View/lichsumuahang.php");
+                                }
+                                else{
+                                    include_once("View/Products.php");
+                                }                                  
+                            ?>
+                        </li>
+                    </ul><!-- @end #portfolio -->
+                </div><!-- @end #w -->
+                <div id="product-details" class="container" style="display: none;">
+                    <!-- Thông tin chi tiết sản phẩm sẽ được hiển thị ở đây -->
                 </div>
-            </div>  
-        </section>
+            </div>
+        </div>
+    </div>  
+</section>
+
         <section class="social_connect">
             <div class="text-content container"> 
                 <div class="col-md-6">

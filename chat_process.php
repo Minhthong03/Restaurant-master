@@ -15,7 +15,6 @@ if (!$user_question) {
 }
 
 // API Key OpenAI của bạn (giữ bí mật)
-//$apiKey = '';
 
 // Kết nối database
 include_once("model/ketnoi.php");
@@ -39,6 +38,7 @@ Thông tin nhà hàng:
 - Địa chỉ: 14 Nguyễn Văn Bảo, phường 4, Gò Vấp, Hồ Chí Minh.
 - Hotline: 0921115678
 - Email: restaurant@gmail.com
+
 
 Thông tin menu hiện tại:
 $menu_text

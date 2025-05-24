@@ -20,6 +20,10 @@ class controlOrder {
     $p = new modelOrder();
     return $p->insertOrder($customer_id, $table_id, $total_amount, $status, $description);
 }
+public function getOrdersByCustomerAndStatus($customer_id, $status = 'Tất cả') {
+    $p = new modelOrder();
+    return $p->selectOrdersByCustomerAndStatus($customer_id, $status);
+}
 
 
 
